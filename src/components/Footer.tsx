@@ -17,7 +17,9 @@ const Footer = () => {
           {/* Social Links */}
           <div className="flex justify-center space-x-6 mb-8">
             <a
-              href="#github"
+              href="https://github.com/Kunal-rawat12"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition-colors duration-200 
                        transform hover:scale-110"
               aria-label="GitHub"
@@ -27,7 +29,9 @@ const Footer = () => {
               </svg>
             </a>
             <a
-              href="#linkedin"
+              href="https://www.linkedin.com/in/kunal-rawat-338646314"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition-colors duration-200 
                        transform hover:scale-110"
               aria-label="LinkedIn"
@@ -43,7 +47,9 @@ const Footer = () => {
             <p className="text-gray-400 text-sm">
               © 2025 RawTechies • Built by{' '}
               <a 
-                href="#kunal" 
+                href="https://www.linkedin.com/in/kunal-rawat-338646314" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-accent hover:text-green-400 transition-colors duration-200"
               >
                 Kunal Rawat

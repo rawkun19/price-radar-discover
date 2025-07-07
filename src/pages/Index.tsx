@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Navigation from '../components/Navigation';
 import HeroSection from '../components/HeroSection';
 import ResultsSection from '../components/ResultsSection';
+import FeedbackSection from '../components/FeedbackSection';
 import Footer from '../components/Footer';
 
 export interface PriceResult {
@@ -171,6 +172,7 @@ const Index = () => {
           onRetry={() => handleSearch(searchQuery)}
         />
       )}
+      <FeedbackSection />
       <Footer />
     </div>
   );
