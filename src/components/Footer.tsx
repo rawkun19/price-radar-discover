@@ -38,19 +38,6 @@ const Footer = () => {
             </a>
           </div>
 
-          {/* Buy Me a Coffee */}
-          <div className="mb-8">
-            <a
-              href="#coffee"
-              className="inline-flex items-center bg-yellow-500 text-black px-6 py-3 
-                       rounded-xl font-semibold hover:bg-yellow-400 transition-all duration-200 
-                       transform hover:scale-105"
-            >
-              <span className="mr-2">☕</span>
-              Buy Me a Coffee
-            </a>
-          </div>
-
           {/* Copyright */}
           <div className="border-t border-gray-800 pt-8">
             <p className="text-gray-400 text-sm">
