@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { PriceResult } from '../pages/Index';
+import { AspectRatio } from './ui/aspect-ratio';
 
 interface ResultCardProps {
   result: PriceResult;
@@ -27,6 +28,18 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
       )}
 
       <div className="p-6">
+        {/* Product Image */}
+        <div className="mb-4">
+          <AspectRatio ratio={1} className="bg-gray-100 rounded-lg overflow-hidden">
+            <img
+              src={result.image}
+              alt={result.title}
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+          </AspectRatio>
+        </div>
+
         {/* Platform Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">

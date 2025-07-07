@@ -14,6 +14,7 @@ export interface PriceResult {
   price: number;
   deliveryTime: string;
   url: string;
+  image: string;
   isLowestPrice?: boolean;
 }
 
@@ -47,6 +48,7 @@ const Index = () => {
           price: 18999,
           deliveryTime: 'Free delivery by tomorrow',
           url: '#',
+          image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop',
           isLowestPrice: true
         },
         {
@@ -56,7 +58,8 @@ const Index = () => {
           title: `${query} - 128GB Storage`,
           price: 19499,
           deliveryTime: 'Delivery in 2-3 days',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop'
         },
         {
           id: '3',
@@ -65,7 +68,8 @@ const Index = () => {
           title: `${query} - Official Store`,
           price: 19999,
           deliveryTime: 'Express delivery available',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop'
         },
         {
           id: '4',
@@ -74,7 +78,8 @@ const Index = () => {
           title: `${query} - 256GB, Blue`,
           price: 22999,
           deliveryTime: 'Free delivery by tomorrow',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=400&fit=crop'
         },
         {
           id: '5',
@@ -83,7 +88,8 @@ const Index = () => {
           title: `${query} - 256GB Storage`,
           price: 23499,
           deliveryTime: 'Delivery in 2-3 days',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop'
         },
         {
           id: '6',
@@ -92,7 +98,8 @@ const Index = () => {
           title: `${query} - Premium Edition`,
           price: 24999,
           deliveryTime: 'Express delivery available',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop'
         },
         {
           id: '7',
@@ -101,7 +108,8 @@ const Index = () => {
           title: `${query} - 512GB, Gold`,
           price: 28999,
           deliveryTime: 'Free delivery by tomorrow',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop'
         },
         {
           id: '8',
@@ -110,7 +118,8 @@ const Index = () => {
           title: `${query} - 512GB Storage`,
           price: 29499,
           deliveryTime: 'Delivery in 2-3 days',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=400&fit=crop'
         },
         {
           id: '9',
@@ -119,7 +128,8 @@ const Index = () => {
           title: `${query} - Limited Edition`,
           price: 31999,
           deliveryTime: 'Express delivery available',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop'
         },
         {
           id: '10',
@@ -128,7 +138,8 @@ const Index = () => {
           title: `${query} - 1TB, Silver`,
           price: 35999,
           deliveryTime: 'Free delivery by tomorrow',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop'
         },
         {
           id: '11',
@@ -137,7 +148,8 @@ const Index = () => {
           title: `${query} - 1TB Storage`,
           price: 36499,
           deliveryTime: 'Delivery in 2-3 days',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop'
         },
         {
           id: '12',
@@ -146,7 +158,8 @@ const Index = () => {
           title: `${query} - Pro Max Edition`,
           price: 39999,
           deliveryTime: 'Express delivery available',
-          url: '#'
+          url: '#',
+          image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=400&fit=crop'
         }
       ];
 
