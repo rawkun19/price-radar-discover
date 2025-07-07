@@ -16,13 +16,13 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 
+    <article className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 
                     transform hover:-translate-y-1 border border-gray-100 overflow-hidden">
       {/* Lowest Price Badge */}
       {result.isLowestPrice && (
-        <div className="bg-accent text-white px-4 py-2 text-sm font-semibold flex items-center">
-          <span className="mr-2">🏷️</span>
-          Lowest Price
+        <div className="bg-accent text-white px-4 py-2 text-sm font-semibold flex items-center" role="banner">
+          <span className="mr-2" aria-hidden="true">🏷️</span>
+          <span>Lowest Price</span>
         </div>
       )}
 
@@ -30,11 +30,11 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
         {/* Platform Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <span className="text-2xl mr-3">{result.platformLogo}</span>
+            <span className="text-2xl mr-3" aria-hidden="true">{result.platformLogo}</span>
             <span className="font-semibold text-gray-900">{result.platform}</span>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-primary">
+            <div className="text-2xl font-bold text-primary" aria-label={`Price: ${formatPrice(result.price)}`}>
               {formatPrice(result.price)}
             </div>
           </div>
@@ -47,8 +47,8 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
 
         {/* Delivery Info */}
         <p className="text-sm text-gray-600 mb-4 flex items-center">
-          <span className="mr-2">🚚</span>
-          {result.deliveryTime}
+          <span className="mr-2" aria-hidden="true">🚚</span>
+          <span>{result.deliveryTime}</span>
         </p>
 
         {/* Buy Now Button */}
@@ -59,11 +59,12 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
           className="block w-full bg-primary text-white text-center py-3 px-4 rounded-xl 
                    font-semibold hover:bg-blue-700 transition-all duration-200 
                    transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/20"
+          aria-label={`Buy ${result.title} from ${result.platform} for ${formatPrice(result.price)}`}
         >
-          Buy Now
+          Buy Now on {result.platform}
         </a>
       </div>
-    </div>
+    </article>
   );
 };
 
