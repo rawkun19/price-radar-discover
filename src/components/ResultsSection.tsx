@@ -1,8 +1,17 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { PriceResult } from '../pages/Index';
 import ResultCard from './ResultCard';
 import LoadingSpinner from './LoadingSpinner';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from './ui/pagination';
 
 interface ResultsSectionProps {
   results: PriceResult[];
@@ -12,6 +21,8 @@ interface ResultsSectionProps {
   onRetry: () => void;
 }
 
+const RESULTS_PER_PAGE = 9; // 3x3 grid for desktop
+
 const ResultsSection: React.FC<ResultsSectionProps> = ({
   results,
   isLoading,
@@ -19,6 +30,19 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({
   error,
   onRetry
 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(results.length / RESULTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * RESULTS_PER_PAGE;
+  const endIndex = startIndex + RESULTS_PER_PAGE;
+  const currentResults = results.slice(startIndex, endIndex);
+
+  // Reset page when results change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [results]);
+
   if (isLoading) {
     return (
       <section className="py-16 bg-white" aria-live="polite">
@@ -73,25 +97,101 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({
           </h2>
           <p className="text-gray-600">
             Found {results.length} result{results.length !== 1 ? 's' : ''} across platforms
+            {totalPages > 1 && (
+              <span className="block mt-1 text-sm">
+                Showing {startIndex + 1}-{Math.min(endIndex, results.length)} of {results.length}
+              </span>
+            )}
           </p>
         </div>
 
-        {/* Results Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" role="list">
-          {results.map((result, index) => (
-            <div
-              key={result.id}
-              className="animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
-              role="listitem"
-            >
-              <ResultCard result={result} />
-            </div>
-          ))}
+        {/* Results Grid - Fixed height container to prevent layout jumping */}
+        <div className="min-h-[600px] mb-8">
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr" role="list">
+            {currentResults.map((result, index) => (
+              <div
+                key={result.id}
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+                role="listitem"
+              >
+                <ResultCard result={result} />
+              </div>
+            ))}
+          </div>
         </div>
 
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center mb-8">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage > 1) {
+                        setCurrentPage(currentPage - 1);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
+                    className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                  />
+                </PaginationItem>
+                
+                {/* Page numbers */}
+                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                  .filter(page => {
+                    // Show first page, last page, current page, and pages around current
+                    return page === 1 || 
+                           page === totalPages || 
+                           Math.abs(page - currentPage) <= 1;
+                  })
+                  .map((page, index, filteredPages) => (
+                    <React.Fragment key={page}>
+                      {/* Add ellipsis if there's a gap */}
+                      {index > 0 && filteredPages[index - 1] < page - 1 && (
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      )}
+                      <PaginationItem>
+                        <PaginationLink
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentPage(page);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          isActive={currentPage === page}
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    </React.Fragment>
+                  ))}
+
+                <PaginationItem>
+                  <PaginationNext 
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage < totalPages) {
+                        setCurrentPage(currentPage + 1);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
+                    className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
+
         {/* Bottom message */}
-        <div className="text-center mt-12 animate-fade-in">
+        <div className="text-center animate-fade-in">
           <p className="text-gray-500 text-sm">
             Prices are updated in real-time. Last updated just now.
           </p>

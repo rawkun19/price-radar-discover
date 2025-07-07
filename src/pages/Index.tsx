@@ -36,7 +36,7 @@ const Index = () => {
       // Mock API response with delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Mock results
+      // Mock results - expanded to test pagination
       const mockResults: PriceResult[] = [
         {
           id: '1',
@@ -63,6 +63,87 @@ const Index = () => {
           platformLogo: '👕',
           title: `${query} - Official Store`,
           price: 19999,
+          deliveryTime: 'Express delivery available',
+          url: '#'
+        },
+        {
+          id: '4',
+          platform: 'Amazon',
+          platformLogo: '🛒',
+          title: `${query} - 256GB, Blue`,
+          price: 22999,
+          deliveryTime: 'Free delivery by tomorrow',
+          url: '#'
+        },
+        {
+          id: '5',
+          platform: 'Flipkart',
+          platformLogo: '🛍️',
+          title: `${query} - 256GB Storage`,
+          price: 23499,
+          deliveryTime: 'Delivery in 2-3 days',
+          url: '#'
+        },
+        {
+          id: '6',
+          platform: 'Myntra',
+          platformLogo: '👕',
+          title: `${query} - Premium Edition`,
+          price: 24999,
+          deliveryTime: 'Express delivery available',
+          url: '#'
+        },
+        {
+          id: '7',
+          platform: 'Amazon',
+          platformLogo: '🛒',
+          title: `${query} - 512GB, Gold`,
+          price: 28999,
+          deliveryTime: 'Free delivery by tomorrow',
+          url: '#'
+        },
+        {
+          id: '8',
+          platform: 'Flipkart',
+          platformLogo: '🛍️',
+          title: `${query} - 512GB Storage`,
+          price: 29499,
+          deliveryTime: 'Delivery in 2-3 days',
+          url: '#'
+        },
+        {
+          id: '9',
+          platform: 'Myntra',
+          platformLogo: '👕',
+          title: `${query} - Limited Edition`,
+          price: 31999,
+          deliveryTime: 'Express delivery available',
+          url: '#'
+        },
+        {
+          id: '10',
+          platform: 'Amazon',
+          platformLogo: '🛒',
+          title: `${query} - 1TB, Silver`,
+          price: 35999,
+          deliveryTime: 'Free delivery by tomorrow',
+          url: '#'
+        },
+        {
+          id: '11',
+          platform: 'Flipkart',
+          platformLogo: '🛍️',
+          title: `${query} - 1TB Storage`,
+          price: 36499,
+          deliveryTime: 'Delivery in 2-3 days',
+          url: '#'
+        },
+        {
+          id: '12',
+          platform: 'Myntra',
+          platformLogo: '👕',
+          title: `${query} - Pro Max Edition`,
+          price: 39999,
           deliveryTime: 'Express delivery available',
           url: '#'
         }
