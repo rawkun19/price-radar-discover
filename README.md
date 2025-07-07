@@ -1,73 +1,171 @@
-# Welcome to your Lovable project
+# PriceRadar Scraper API
 
-## Project info
+Real-time price comparison scraper for Amazon India and Flipkart India.
 
-**URL**: https://lovable.dev/projects/fa52e423-e176-4b74-9180-7e73ad4e05b1
+## 🚀 Quick Start
 
-## How can I edit this code?
+### Installation
+```bash
+npm install
+```
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/fa52e423-e176-4b74-9180-7e73ad4e05b1) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Development
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Production
+```bash
+npm start
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📡 API Endpoints
 
-**Use GitHub Codespaces**
+### Search Products
+```
+GET /api/search?query=product+name
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+**Example:**
+```bash
+curl "http://localhost:3000/api/search?query=iPhone+15"
+```
 
-## What technologies are used for this project?
+**Response:**
+```json
+[
+  {
+    "platform": "Amazon",
+    "title": "iPhone 15 (128GB, Midnight)",
+    "price": 52999,
+    "delivery": "Free delivery by tomorrow",
+    "link": "https://amazon.in/product-page"
+  },
+  {
+    "platform": "Flipkart", 
+    "title": "iPhone 15 128GB – Flipkart",
+    "price": 51999,
+    "delivery": "Delivery in 2-3 days",
+    "link": "https://flipkart.com/product-page"
+  }
+]
+```
 
-This project is built with:
+### Health Check
+```
+GET /health
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🔧 Features
 
-## How can I deploy this project?
+- ✅ Real-time scraping from Amazon India & Flipkart India
+- ✅ Anti-bot protection with proper headers
+- ✅ Fallback selectors for DOM changes
+- ✅ 15-second timeout per platform
+- ✅ Error handling & graceful failures
+- ✅ Price sorting (lowest first)
+- ✅ CORS enabled for frontend integration
 
-Simply open [Lovable](https://lovable.dev/projects/fa52e423-e176-4b74-9180-7e73ad4e05b1) and click on Share -> Publish.
+## 🧪 Testing
 
-## Can I connect a custom domain to my Lovable project?
+Run the test suite:
+```bash
+npm test
+```
 
-Yes, you can!
+This will test:
+- Health endpoint
+- Search functionality with sample queries
+- Error handling
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🌐 Frontend Integration
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Fetch from React/JavaScript:
+```javascript
+const searchProducts = async (query) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/search?query=${encodeURIComponent(query)}`);
+    const products = await response.json();
+    return products;
+  } catch (error) {
+    console.error('Search failed:', error);
+    return [];
+  }
+};
+```
+
+### Update your existing frontend:
+Replace the mock API call in `src/pages/Index.tsx`:
+
+```javascript
+// Replace this mock code:
+await new Promise(resolve => setTimeout(resolve, 2000));
+
+// With this real API call:
+const response = await fetch(`http://localhost:3000/api/search?query=${encodeURIComponent(query)}`);
+const apiResults = await response.json();
+
+if (response.ok) {
+  const formattedResults = apiResults.map((item, index) => ({
+    id: (index + 1).toString(),
+    platform: item.platform,
+    platformLogo: item.platform === 'Amazon' ? '🛒' : '🛍️',
+    title: item.title,
+    price: item.price,
+    deliveryTime: item.delivery,
+    url: item.link,
+    image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop',
+    isLowestPrice: index === 0 // First item (lowest price)
+  }));
+  
+  setResults(formattedResults);
+} else {
+  throw new Error(apiResults.error || 'Search failed');
+}
+```
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Install Vercel CLI: `npm i -g vercel`
+2. Run: `vercel`
+3. Follow the prompts
+
+### Railway
+1. Connect your GitHub repo to Railway
+2. Deploy automatically
+
+### Render
+1. Connect your GitHub repo to Render
+2. Set build command: `npm install`
+3. Set start command: `npm start`
+
+## ⚠️ Important Notes
+
+- This scraper is for educational purposes
+- Respect robots.txt and rate limits
+- Consider using official APIs when available
+- Monitor for DOM structure changes
+- Add request delays if needed
+
+## 🔧 Troubleshooting
+
+### Common Issues:
+
+1. **No results found:**
+   - Check if the websites are accessible
+   - Verify DOM selectors are still valid
+   - Check console logs for errors
+
+2. **Timeout errors:**
+   - Increase timeout in server.js
+   - Check internet connection
+   - Verify target websites are responsive
+
+3. **CORS errors:**
+   - Ensure CORS is enabled in server.js
+   - Check frontend URL is allowed
+
+## 📝 License
+
+MIT License - see LICENSE file for details.
