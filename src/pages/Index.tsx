@@ -32,140 +32,43 @@ const Index = () => {
     setHasSearched(true);
 
     try {
-      // Simulate API call - replace with actual API endpoint
+      // Real API call to our scraper backend
       console.log(`Searching for: ${query}`);
       
-      // Mock API response with delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const response = await fetch(`http://localhost:3000/api/search?query=${encodeURIComponent(query)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Add timeout
+        signal: AbortSignal.timeout(30000) // 30 second timeout
+      });
       
-      // Mock results - expanded to test pagination
-      const mockResults: PriceResult[] = [
-        {
-          id: '1',
-          platform: 'Amazon',
-          platformLogo: '🛒',
-          title: `${query} - 128GB, Midnight Black`,
-          price: 18999,
-          deliveryTime: 'Free delivery by tomorrow',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop',
-          isLowestPrice: true
-        },
-        {
-          id: '2',
-          platform: 'Flipkart',
-          platformLogo: '🛍️',
-          title: `${query} - 128GB Storage`,
-          price: 19499,
-          deliveryTime: 'Delivery in 2-3 days',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop'
-        },
-        {
-          id: '3',
-          platform: 'Myntra',
-          platformLogo: '👕',
-          title: `${query} - Official Store`,
-          price: 19999,
-          deliveryTime: 'Express delivery available',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop'
-        },
-        {
-          id: '4',
-          platform: 'Amazon',
-          platformLogo: '🛒',
-          title: `${query} - 256GB, Blue`,
-          price: 22999,
-          deliveryTime: 'Free delivery by tomorrow',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=400&fit=crop'
-        },
-        {
-          id: '5',
-          platform: 'Flipkart',
-          platformLogo: '🛍️',
-          title: `${query} - 256GB Storage`,
-          price: 23499,
-          deliveryTime: 'Delivery in 2-3 days',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop'
-        },
-        {
-          id: '6',
-          platform: 'Myntra',
-          platformLogo: '👕',
-          title: `${query} - Premium Edition`,
-          price: 24999,
-          deliveryTime: 'Express delivery available',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop'
-        },
-        {
-          id: '7',
-          platform: 'Amazon',
-          platformLogo: '🛒',
-          title: `${query} - 512GB, Gold`,
-          price: 28999,
-          deliveryTime: 'Free delivery by tomorrow',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop'
-        },
-        {
-          id: '8',
-          platform: 'Flipkart',
-          platformLogo: '🛍️',
-          title: `${query} - 512GB Storage`,
-          price: 29499,
-          deliveryTime: 'Delivery in 2-3 days',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=400&fit=crop'
-        },
-        {
-          id: '9',
-          platform: 'Myntra',
-          platformLogo: '👕',
-          title: `${query} - Limited Edition`,
-          price: 31999,
-          deliveryTime: 'Express delivery available',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop'
-        },
-        {
-          id: '10',
-          platform: 'Amazon',
-          platformLogo: '🛒',
-          title: `${query} - 1TB, Silver`,
-          price: 35999,
-          deliveryTime: 'Free delivery by tomorrow',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop'
-        },
-        {
-          id: '11',
-          platform: 'Flipkart',
-          platformLogo: '🛍️',
-          title: `${query} - 1TB Storage`,
-          price: 36499,
-          deliveryTime: 'Delivery in 2-3 days',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop'
-        },
-        {
-          id: '12',
-          platform: 'Myntra',
-          platformLogo: '👕',
-          title: `${query} - Pro Max Edition`,
-          price: 39999,
-          deliveryTime: 'Express delivery available',
-          url: '#',
-          image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=400&fit=crop'
-        }
-      ];
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const apiResults = await response.json();
+      
+      // The API now returns data in the correct format
+      const mockResults: PriceResult[] = apiResults;
 
       setResults(mockResults);
     } catch (err) {
-      setError('Failed to fetch results. Please try again.');
+      console.error('Search error:', err);
+      
+      // Provide more specific error messages
+      if (err instanceof Error) {
+        if (err.name === 'AbortError') {
+          setError('Search timed out. Please try again with a shorter query.');
+        } else if (err.message.includes('Failed to fetch')) {
+          setError('Unable to connect to search service. Please check if the backend is running.');
+        } else {
+          setError(`Search failed: ${err.message}`);
+        }
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
       setResults([]);
     } finally {
       setIsLoading(false);
